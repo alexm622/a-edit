@@ -1,7 +1,11 @@
 
-#include <stdio.h>
+#include <iostream>
 
-int main(){
-  printf("test 123");
-  return 0;
+
+#include "gui.h"
+
+int main(int argc, char* argv[]){
+	Gui *g = new Gui();
+	g->drawGui();
+	g->drawLoop();
 }

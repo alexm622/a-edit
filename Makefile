@@ -14,17 +14,17 @@
 #
 
 CXX      := g++
-CXXFLAGS := -pedantic-errors -Wall -Wextra -Werror
-LDFLAGS  := -L/usr/lib -lstdc++ -lm
+WARNINGS= -Wall -Wextra -Wshadow -Wswitch-enum -Wstack-protector -Wdate-time -Walloc-zero -Walloca  
+CXXFLAGS := -std=c++17 -pedantic-errors $(WARNINGS)
+LDFLAGS  := /usr/lib/ftxui-component.a /usr/lib/ftxui-dom.a /usr/lib/ftxui-screen.a -L/usr/lib -lstdc++ -lm -lpthread
 BUILD    := ./build
 OBJ_DIR  := $(BUILD)/objects
 APP_DIR  := $(BUILD)/apps
 TARGET   := main
-INCLUDE  := -Iinclude/
+INCLUDE  := -Iinclude/ -I/usr/local/include 
 SRC      :=                      \
-   $(wildcard src/module1/*.cpp) \
-   $(wildcard src/module2/*.cpp) \
-   $(wildcard src/*.cpp)         \
+   $(wildcard src/ui/*.cpp)         \
+	 $(wildcard src/*.cpp)         \
 
 OBJECTS  := $(SRC:%.cpp=$(OBJ_DIR)/%.o)
 DEPENDENCIES \
