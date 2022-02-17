@@ -12,10 +12,10 @@ class Gui {
 public:
   Gui();
   ~Gui();
-  void drawGui();
-  void drawLoop();
-  void setRenderer(ftxui::Component renderer);
-  ftxui::Component buildUI();
+  void start();
+  static std::vector<std::string> *input_strings;
+  static std::vector<std::string> *tab_names;
+  static int curr_tab;
   private:
     ftxui::ScreenInteractive screen;
     int width, height;

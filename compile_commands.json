@@ -18,6 +18,32 @@
       "-I/usr/local/include",
       "-c",
       "-o",
+      "build/objects/src/ui/menu.o",
+      "src/ui/menu.cpp"
+    ],
+    "directory": "/home/alex/git/a-edit",
+    "file": "/home/alex/git/a-edit/src/ui/menu.cpp",
+    "output": "/home/alex/git/a-edit/build/objects/src/ui/menu.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-std=c++17",
+      "-pedantic-errors",
+      "-Wall",
+      "-Wextra",
+      "-Wshadow",
+      "-Wswitch-enum",
+      "-Wstack-protector",
+      "-Wdate-time",
+      "-Walloc-zero",
+      "-Walloca",
+      "-DDEBUG",
+      "-g",
+      "-Iinclude/",
+      "-I/usr/local/include",
+      "-c",
+      "-o",
       "build/objects/src/gui.o",
       "src/gui.cpp"
     ],

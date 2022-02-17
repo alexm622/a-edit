@@ -23,7 +23,6 @@ APP_DIR  := $(BUILD)/apps
 TARGET   := main
 INCLUDE  := -Iinclude/ -I/usr/local/include 
 SRC      :=                      \
-   $(wildcard src/ui/*.cpp)         \
 	 $(wildcard src/*.cpp)         \
 
 OBJECTS  := $(SRC:%.cpp=$(OBJ_DIR)/%.o)
@@ -64,7 +63,16 @@ info:
 	@echo "[*] Sources:         ${SRC}         "
 	@echo "[*] Objects:         ${OBJECTS}     "
 	@echo "[*] Dependencies:    ${DEPENDENCIES}"
+
 run:
 	@echo "running program"
 	@exec build/apps/${TARGET}
-	
+
+kill:	
+	@echo "killing program"
+	@kill -9 $$(ps -A | grep main | awk '{ print $$1 }')
+
+killrun:
+	@echo "running program, waiting 5 seconds, and killing it"
+	@make run & 
+	@sleep 5 && make kill

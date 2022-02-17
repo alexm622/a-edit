@@ -6,6 +6,5 @@
 
 int main(int argc, char* argv[]){
 	Gui *g = new Gui();
-	g->drawGui();
-	g->drawLoop();
+	g->start();
 }

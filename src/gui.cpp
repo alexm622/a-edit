@@ -6,55 +6,42 @@
 #include "ftxui/screen/terminal.hpp"
 #include "ftxui/component/component.hpp"
 
-#include "menu.h"
+std::vector<std::string>* Gui::input_strings = new std::vector<std::string>();
+std::vector<std::string>* Gui::tab_names = new std::vector<std::string>();
+int Gui::curr_tab = 0;
 
-Gui::Gui() : screen(ftxui::ScreenInteractive::Fullscreen()), width(ftxui::Terminal::Size().dimx), height(ftxui::Terminal::Size().dimy)
-{
+
+Gui::Gui() : screen(ftxui::ScreenInteractive::Fullscreen()), width(ftxui::Terminal::Size().dimx), height(ftxui::Terminal::Size().dimy) {
+
 }
 
-void Gui::drawGui()
+void Gui::start()
 {
-  if (renderer_defined)
-  {
-    screen.Print();
-  }
-}
+  ftxui::Component renderer;
 
-void Gui::drawLoop()
-{
-  if (renderer_defined)
-  {
+  input_strings->push_back("nothing at the moment");
+  tab_names->push_back("tab 1");
 
-    screen.Loop(renderer);
-  }
-  else
-  {
-    auto btn_quit = ftxui::Button("Quit", screen.ExitLoopClosure());
-
-    auto layout = ftxui::Container::Horizontal({
-      btn_quit,
-    });
-
-    auto renderer_new = ftxui::Renderer(layout, [ & ] {
-      auto explanation = ftxui::paragraph(
-        "renderer is empty");
-      auto element = ftxui::vbox({
-        explanation | ftxui::borderEmpty,
-        ftxui::hbox({
-          ftxui::filler(),
-          btn_quit -> Render(),
-        }),
+  auto toggle = ftxui::Toggle(tab_names, &Gui::curr_tab);
+  ftxui::Component input = ftxui::Input(&input_strings->front(), "nothing");
+  auto tab_container = ftxui::Container::Tab({
+        input
+      }, &Gui::curr_tab);
+  auto container = ftxui::Container::Vertical({
+        toggle,
+        tab_container
       });
-      element = element | ftxui::borderEmpty | ftxui::border | ftxui::size(ftxui::WIDTH, ftxui::LESS_THAN, 80) |
-        ftxui::size(ftxui::HEIGHT, ftxui::LESS_THAN, 20) | ftxui::center;
-      return element;
-    });
-    screen.Loop(renderer_new);
-  }
+
+  auto tab_toggle = ftxui::Toggle(tab_names, &Gui::curr_tab);
+  renderer = ftxui::Renderer(container, [&] {
+      return ftxui::vbox({
+          ftxui::paragraph("test"),
+          toggle->Render(),
+          ftxui::separator(),
+          tab_container->Render()
+          }) | ftxui::border;
+      });
+  screen.Loop(renderer); 
+
 }
 
-ftxui::Component buildUI()
-{
-  // for now just build a basic ui
-  return nullptr;
-}
