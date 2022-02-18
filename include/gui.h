@@ -15,6 +15,8 @@ public:
   void start();
   static std::vector<std::string> *input_strings;
   static std::vector<std::string> *tab_names;
+  static std::vector<ftxui::Component> inputs;
+  static void addTab();
   static int curr_tab;
   private:
     ftxui::ScreenInteractive screen;
