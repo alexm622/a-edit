@@ -20,8 +20,9 @@ Gui::Gui() : screen(ftxui::ScreenInteractive::Fullscreen()), width(ftxui::Termin
 
 void Gui::start()
 {
-
-  for (int i = (int)inputs.size(); i < (int)input_strings->size(); i++) {
+  Gui::inputs.clear();
+  for (int i = 0; i < (int)tab_names->size(); i++) {
+    input_strings->push_back(std::to_string(std::rand()));
     Gui::inputs.push_back(ftxui::Input(&input_strings->at(i), "nothing"));
   }
 
@@ -30,11 +31,10 @@ void Gui::start()
   Gui::inputs.push_back(input);
   auto buttons = ftxui::Container::Horizontal(
       {ftxui::Button("new tab", [&] { 
+          screen.ExitLoopClosure();
           tab_names->push_back(std::to_string(std::rand()));
-          //this line is hanging and i dont know why
-          input_strings->push_back(std::to_string(std::rand()));
-          Gui::start();
-          }),
+          this->start();
+      }),
        ftxui::Button("quit", screen.ExitLoopClosure())});
 
   auto tab_container = ftxui::Container::Tab(Gui::inputs, &Gui::curr_tab);
@@ -55,7 +55,6 @@ void Gui::start()
           }) | ftxui::border;
       });
   screen.Loop(renderer); 
-
 }
 
 /*
